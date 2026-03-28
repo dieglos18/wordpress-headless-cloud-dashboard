@@ -1,7 +1,15 @@
 import axios from "axios";
+import { normalizePageUrl } from "../lib/url";
 import { API_BASE_URL } from "./config";
 import type { Project, ProjectWorkflowStatus } from "../types/project";
+import type { WpMediaRest } from "../types/wordpress-media";
 import type { WpProjectRest } from "../types/wordpress-project";
+
+/**
+ * Preview URLs come from ACF (Elementor/front pages). Keep titles and copy in
+ * WordPress/ACF so the dashboard and Elementor stay aligned; this app only
+ * normalizes and opens the URL the API returns.
+ */
 
 export const wordpressApi = axios.create({
   baseURL: API_BASE_URL,
@@ -49,7 +57,7 @@ export function mapWpProjectToProject(raw: WpProjectRest): Project {
     project_description: acf.project_description ?? "",
     project_url: acf.project_url ?? "",
     featured_image: featured,
-    preview_page_url: acf.preview_page_url ?? "",
+    preview_page_url: normalizePageUrl(acf.preview_page_url, API_BASE_URL),
   };
 }
 
@@ -61,4 +69,9 @@ export async function fetchProjects(): Promise<Project[]> {
 export async function fetchProject(id: number | string): Promise<Project> {
   const response = await wordpressApi.get<WpProjectRest>(`/projects/${id}`);
   return mapWpProjectToProject(response.data);
+}
+
+export async function fetchMedia(id: number | string): Promise<WpMediaRest> {
+  const response = await wordpressApi.get<WpMediaRest>(`/media/${id}`);
+  return response.data;
 }
