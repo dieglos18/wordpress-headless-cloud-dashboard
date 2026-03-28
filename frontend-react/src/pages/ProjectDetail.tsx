@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { isAxiosError } from "axios";
 import { Link, useParams } from "react-router-dom";
+import { ProjectFeaturedImage } from "../components/ProjectFeaturedImage";
 import { useProject } from "../hooks/useProject";
 import type { Project } from "../types/project";
 
@@ -12,16 +13,19 @@ function Field({
   children: ReactNode;
 }) {
   return (
-    <div className="border-b border-zinc-100 py-4 last:border-0 dark:border-zinc-800">
-      <dt className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+    <div className="border-b border-slate-100 py-4 last:border-0 dark:border-white/6">
+      <dt className="text-xs font-semibold uppercase tracking-wide text-app-muted">
         {label}
       </dt>
-      <dd className="mt-1 text-zinc-900 dark:text-zinc-100">{children}</dd>
+      <dd className="mt-1 text-ink">{children}</dd>
     </div>
   );
 }
 
 function renderProjectFields(project: Project) {
+  const linkClass =
+    "break-all text-secondary underline decoration-secondary/40 underline-offset-2 transition-colors hover:text-primary dark:text-sky-400/95 dark:hover:text-secondary";
+
   return (
     <dl>
       <Field label="Project name">{project.project_name}</Field>
@@ -38,7 +42,7 @@ function renderProjectFields(project: Project) {
       </Field>
       <Field label="Description">
         {project.project_description ? (
-          <p className="whitespace-pre-line text-zinc-800 dark:text-zinc-200">
+          <p className="whitespace-pre-line text-ink/95">
             {project.project_description}
           </p>
         ) : (
@@ -47,12 +51,7 @@ function renderProjectFields(project: Project) {
       </Field>
       <Field label="Project URL">
         {project.project_url ? (
-          <a
-            href={project.project_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-violet-600 underline hover:text-violet-700 dark:text-violet-400"
-          >
+          <a href={project.project_url} target="_blank" rel="noopener noreferrer" className={linkClass}>
             {project.project_url}
           </a>
         ) : (
@@ -66,7 +65,7 @@ function renderProjectFields(project: Project) {
             href={project.preview_page_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="break-all text-violet-600 underline hover:text-violet-700 dark:text-violet-400"
+            className={linkClass}
           >
             {project.preview_page_url}
           </a>
@@ -85,14 +84,14 @@ export function ProjectDetail() {
 
   const { data, isPending, isError, error, refetch } = useProject(projectId);
 
+  const backLinkClass =
+    "text-sm font-medium text-secondary transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary dark:text-sky-400/95 dark:hover:text-secondary";
+
   if (idParam === undefined || projectId === undefined) {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-10 text-left">
-        <p className="text-zinc-600 dark:text-zinc-400">Invalid project id.</p>
-        <Link
-          to="/"
-          className="mt-4 inline-block text-violet-600 hover:underline dark:text-violet-400"
-        >
+      <div className="px-4 py-10 text-left sm:px-6">
+        <p className="text-app-muted">Invalid project id.</p>
+        <Link to="/" className={`mt-4 inline-block ${backLinkClass}`}>
           Back to dashboard
         </Link>
       </div>
@@ -101,21 +100,20 @@ export function ProjectDetail() {
 
   if (isPending) {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-10">
-        <div className="flex items-center gap-3 text-zinc-600 dark:text-zinc-400">
+      <div className="px-4 py-10 sm:px-6">
+        <div className="flex items-center gap-3 text-app-muted">
           <span
-            className="size-5 animate-spin rounded-full border-2 border-zinc-300 border-t-violet-600 dark:border-zinc-600 dark:border-t-violet-400"
+            className="size-6 animate-spin rounded-full border-2 border-slate-200 border-t-secondary dark:border-white/12 dark:border-t-secondary"
             aria-hidden
           />
-          <p>Loading project…</p>
+          <p className="text-ink">Loading project…</p>
         </div>
       </div>
     );
   }
 
   if (isError) {
-    const notFound =
-      isAxiosError(error) && error.response?.status === 404;
+    const notFound = isAxiosError(error) && error.response?.status === 404;
     const message = isAxiosError(error)
       ? error.message
       : error instanceof Error
@@ -123,9 +121,9 @@ export function ProjectDetail() {
         : "Unknown error";
 
     return (
-      <div className="mx-auto max-w-3xl px-4 py-10 text-left">
+      <div className="px-4 py-10 text-left sm:px-6">
         <div
-          className="rounded-xl border border-red-200 bg-red-50 p-4 text-red-900 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-200"
+          className="max-w-xl rounded-xl border border-red-200 bg-red-50 p-4 text-red-900 dark:border-red-900/40 dark:bg-red-950/30 dark:text-red-300/95"
           role="alert"
         >
           <p className="font-medium">
@@ -140,10 +138,7 @@ export function ProjectDetail() {
             Retry
           </button>
         </div>
-        <Link
-          to="/"
-          className="mt-6 inline-block text-violet-600 hover:underline dark:text-violet-400"
-        >
+        <Link to="/" className={`mt-6 inline-block ${backLinkClass}`}>
           Back to dashboard
         </Link>
       </div>
@@ -152,51 +147,57 @@ export function ProjectDetail() {
 
   if (!data) {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-10 text-left">
-        <p className="text-zinc-600 dark:text-zinc-400">Project not found.</p>
-        <Link
-          to="/"
-          className="mt-4 inline-block text-violet-600 hover:underline dark:text-violet-400"
-        >
+      <div className="px-4 py-10 text-left sm:px-6">
+        <p className="text-app-muted">Project not found.</p>
+        <Link to="/" className={`mt-4 inline-block ${backLinkClass}`}>
           Back to dashboard
         </Link>
       </div>
     );
   }
 
+  const hasPreview = Boolean(data.preview_page_url);
+
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10 text-left">
-      <Link
-        to="/"
-        className="text-sm font-medium text-violet-600 hover:underline dark:text-violet-400"
-      >
+    <div className="px-4 py-8 text-left sm:px-6 sm:py-10">
+      <Link to="/" className={`inline-block ${backLinkClass}`}>
         ← Back to dashboard
       </Link>
 
       <header className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+          <h1 className="text-3xl font-bold tracking-tight text-primary dark:text-white">
             {data.project_name}
           </h1>
-          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">ID {data.id}</p>
+          <p className="mt-1 text-sm text-app-muted">ID {data.id}</p>
         </div>
-        {data.preview_page_url ? (
+        {hasPreview ? (
           <a
             href={data.preview_page_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center justify-center rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600"
+            className="inline-flex shrink-0 items-center justify-center rounded-lg bg-secondary px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
           >
             Preview
           </a>
         ) : (
-          <span className="inline-flex shrink-0 cursor-not-allowed items-center justify-center rounded-lg bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-400 dark:bg-zinc-800 dark:text-zinc-500">
+          <span className="inline-flex shrink-0 cursor-not-allowed items-center justify-center rounded-lg bg-slate-100 px-4 py-2.5 text-sm font-medium text-app-muted dark:bg-white/5">
             No preview URL
           </span>
         )}
       </header>
 
-      <section className="mt-8 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/50">
+      {data.featured_image ? (
+        <div className="mt-8">
+          <ProjectFeaturedImage
+            mediaId={data.featured_image}
+            alt={`Featured image for ${data.project_name}`}
+            variant="detail"
+          />
+        </div>
+      ) : null}
+
+      <section className="mt-8 rounded-xl border border-slate-200 bg-app-card p-6 shadow-sm dark:border-white/8">
         {renderProjectFields(data)}
       </section>
     </div>
