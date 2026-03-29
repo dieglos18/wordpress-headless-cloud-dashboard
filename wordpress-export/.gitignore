@@ -1,0 +1,4 @@
+# If uploads-backup.zip is too large for GitHub, uncomment the two lines below
+# and keep uploads/.gitkeep so the uploads/ folder stays in the repo.
+# uploads/*.zip
+# !uploads/.gitkeep

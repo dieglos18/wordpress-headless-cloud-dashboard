@@ -2,6 +2,8 @@
 
 Add images here so the root [README.md](../../README.md) can show a polished portfolio view on GitHub.
 
+For **WordPress admin** or REST response screenshots, use [wordpress-export/screenshots/README.md](../../wordpress-export/screenshots/README.md).
+
 ## Recommended files
 
 | File | What to capture |

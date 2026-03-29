@@ -2,6 +2,8 @@
 
 This document describes how the React dashboard talks to WordPress and how preview links relate to Elementor (or any front-end page).
 
+To **restore WordPress from a database dump, ACF JSON, and uploads zip**, follow [wordpress-export/README.md](../wordpress-export/README.md).
+
 ## Data flow
 
 1. WordPress exposes a custom post type (e.g. **projects**) on the REST API under `GET /wp/v2/projects` (and `GET /wp/v2/projects/{id}`).

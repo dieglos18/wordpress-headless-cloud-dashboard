@@ -35,4 +35,6 @@ Routing lives in `src/App.tsx` (`/` and `/projects/:id`).
 
 Integration details, media IDs, preview URLs, and CORS notes: **[../docs/WORDPRESS.md](../docs/WORDPRESS.md)**.
 
+To import WordPress from the bundled SQL / ACF / uploads: **[../wordpress-export/README.md](../wordpress-export/README.md)**.
+
 For generic Vite + React tooling (ESLint extensions, React Compiler, etc.), see the [Vite documentation](https://vite.dev/guide/).

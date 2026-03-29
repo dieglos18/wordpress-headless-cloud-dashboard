@@ -20,10 +20,26 @@ flowchart LR
 
 WordPress owns content and URLs; the dashboard consumes `GET /wp/v2/projects` (and single-project routes), resolves featured images via `GET /wp/v2/media/{id}`, and uses ACF `preview_page_url` for external preview links.
 
+## Repository layout
+
+```text
+wordpress-headless-cloud-dashboard/
+├── frontend-react/           # React + Vite dashboard
+├── wordpress-export/         # SQL dump, ACF JSON, uploads zip, import guide
+│   ├── database/
+│   ├── acf-fields/
+│   ├── uploads/
+│   └── README.md
+├── docs/
+│   ├── WORDPRESS.md          # REST, CORS, media, previews
+│   └── screenshots/          # Optional React UI captures for README
+└── README.md
+```
+
 ## Stack
 
 | Layer | Technologies |
-|-------|----------------|
+|-------|--------------|
 | Front end | React 19, TypeScript, Vite 8, Tailwind CSS v4 |
 | Data | TanStack Query, axios |
 | Routing | React Router |
@@ -31,22 +47,30 @@ WordPress owns content and URLs; the dashboard consumes `GET /wp/v2/projects` (a
 
 ## Quick start
 
+### Frontend (React)
+
 ```bash
 cd frontend-react
 cp .env.example .env
-# Edit .env: set VITE_API_BASE_URL to your WordPress REST base (…/wp-json/wp/v2)
+# Set VITE_API_BASE_URL to your WordPress REST base (…/wp-json/wp/v2)
 
 npm install
 npm run dev
 ```
 
-Production build: `npm run build` then `npm run preview` to verify the bundle.
+Production build: `npm run build` then `npm run preview`.
 
-More detail: [frontend-react/README.md](frontend-react/README.md).
+Details: [frontend-react/README.md](frontend-react/README.md).
+
+### Backend (WordPress)
+
+Full import from this repo’s exports (Local, database, ACF, uploads, plugins checklist):
+
+**[wordpress-export/README.md](wordpress-export/README.md)**
 
 ## WordPress: plugins and pieces
 
-Adjust names to match your install; typical setup:
+Typical setup (adjust to your install):
 
 | Piece | Purpose |
 |-------|---------|
@@ -55,15 +79,18 @@ Adjust names to match your install; typical setup:
 | **Elementor** | Builds the preview/front pages linked from `preview_page_url`. |
 | **Theme / REST** | A theme or minimal setup that does not block `wp-json` for your use case. |
 | **CORS or proxy** | If the React app and WordPress are on different origins, allow CORS or proxy API requests in dev (see [docs/WORDPRESS.md](docs/WORDPRESS.md)). |
+| **Contact Form 7** | Optional; contact flows live in WordPress, not in the React app. |
 
 ## Documentation
 
+- [wordpress-export/README.md](wordpress-export/README.md) — Import/export database, ACF, uploads, verification, troubleshooting.
 - [docs/WORDPRESS.md](docs/WORDPRESS.md) — REST flow, media IDs, preview URLs, CORS checklist.
-- [docs/screenshots/README.md](docs/screenshots/README.md) — how to add portfolio screenshots and an optional demo GIF.
+- [docs/screenshots/README.md](docs/screenshots/README.md) — React dashboard screenshots and optional demo GIF.
+- [wordpress-export/screenshots/README.md](wordpress-export/screenshots/README.md) — Optional WP admin / API reference captures.
 
 ## Screenshots
 
-Add PNG/WebP files under `docs/screenshots/` (see the guide above). Suggested names:
+Add PNG/WebP files under `docs/screenshots/` for the **React** UI (see guide above). Suggested names:
 
 | File | Description |
 |------|-------------|
@@ -71,9 +98,9 @@ Add PNG/WebP files under `docs/screenshots/` (see the guide above). Suggested na
 | `docs/screenshots/dashboard-dark.png` | Dashboard grid, dark theme |
 | `docs/screenshots/project-detail.png` | Project detail view |
 
-**Optional:** `docs/screenshots/demo.gif` — short screen recording of navigation and Preview.
+Optional: `docs/screenshots/demo.gif` — short screen recording.
 
-After you export the images, add standard Markdown embeds next to this section, for example:
+After exporting images, embed them in this section, for example:
 
 ```markdown
 ![Dashboard light theme](docs/screenshots/dashboard-light.png)
