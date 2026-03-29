@@ -206,12 +206,6 @@ Exact versions depend on your export date. Typical stack:
 
 ---
 
-## Reference screenshots (optional)
-
-Add admin/API captures under `wordpress-export/screenshots/` (see [screenshots/README.md](screenshots/README.md)) for recruiters: projects list, ACF group, Theme Builder, sample REST response.
-
----
-
 ## Updating this export later
 
 ```bash
