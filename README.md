@@ -88,26 +88,11 @@ Typical setup (adjust to your install):
 - [docs/screenshots/README.md](docs/screenshots/README.md) — React dashboard screenshots and optional demo GIF.
 - [wordpress-export/screenshots/README.md](wordpress-export/screenshots/README.md) — Optional WP admin / API reference captures.
 
-## Screenshots
+## Demo
 
-Add PNG/WebP files under `docs/screenshots/` for the **React** UI (see guide above). Suggested names:
+## Dark Theme
+<img width="1280" height="691" alt="Screenshot 2026-03-28 at 7 49 29 PM" src="https://github.com/user-attachments/assets/05a80ada-bb39-4cc5-b3a1-2085978bd25b" />
 
-| File | Description |
-|------|-------------|
-| `docs/screenshots/dashboard-light.png` | Dashboard grid, light theme |
-| `docs/screenshots/dashboard-dark.png` | Dashboard grid, dark theme |
-| `docs/screenshots/project-detail.png` | Project detail view |
 
-Optional: `docs/screenshots/demo.gif` — short screen recording.
-
-After exporting images, embed them in this section, for example:
-
-```markdown
-![Dashboard light theme](docs/screenshots/dashboard-light.png)
-![Dashboard dark theme](docs/screenshots/dashboard-dark.png)
-![Project detail](docs/screenshots/project-detail.png)
-```
-
-## License
-
-Specify your license here if you publish the repo publicly.
+## Light Theme
+<img width="1280" height="677" alt="Screenshot 2026-03-28 at 7 49 35 PM" src="https://github.com/user-attachments/assets/30702d0a-8308-4fd8-b73b-464f7b47cec0" />
